@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
 
     private var isXTurn = true // מתחילים עם X
     private lateinit var buttons: Array<Button>  // מערך של כפתורים
+    private lateinit var playAgainLayout : LinearLayout
+    private lateinit var playAgainBtn : Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +47,30 @@ class MainActivity : AppCompatActivity() {
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener { selectedBtn(index) }
         }
+        playAgainLayout = findViewById(R.id.playAgainLayout)
+        playAgainBtn = findViewById(R.id.playAgainBtn)
+
+        // Set OnClickListener for playAgainBtn
+        playAgainBtn.setOnClickListener {
+            // Restart the game when Play Again is pressed
+            startGame()
+            // Hide the play again layout after restarting
+            playAgainLayout.visibility = View.GONE
+            playAgainBtn.visibility = View.GONE
+        }
+
+
 
         setupButtonListeners()
     }
+
+    private fun showPlayAgainOption()
+    {
+        playAgainLayout.visibility = View.VISIBLE
+        playAgainBtn.visibility = View.VISIBLE
+    }
+
+
 
     // פונקציה שמאפס את המשחק
     private fun startGame() {
@@ -83,16 +107,17 @@ class MainActivity : AppCompatActivity() {
                 val winner = if (isXTurn) "X" else "O"
                 Toast.makeText(this, "שחקן $winner ניצח!", Toast.LENGTH_SHORT).show()
 
+                showPlayAgainOption()
+
                 Handler(Looper.getMainLooper()).postDelayed({
                     startGame() // איפוס המשחק לאחר השהייה
                 }, 1000) // השהייה של 1000 מילישניות (שנייה אחת)
 
             }
-            if (checkTie()){
+            else if (checkTie()){
                 Toast.makeText(this,"יש לנו תיקו, חייב משחק חוזר!", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    startGame() // איפוס המשחק לאחר השהייה
-                }, 1000) // השהייה של 1000 מילישניות (שנייה אחת)
+
+                showPlayAgainOption()
 
             }
 

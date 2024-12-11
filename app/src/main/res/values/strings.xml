@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">tic-tac-toeApp</string>
     <string name="start">Start</string>
-    <string name="restart">restart</string>
-    <string name="exit">exit</string>
+    <string name="restart">Restart</string>
+    <string name="exit">Exit</string>
+    <string name="play_again">Play Again</string>
 
 </resources>
